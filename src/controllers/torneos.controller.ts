@@ -3,7 +3,7 @@
 import {DefaultCrudRepository, juggler} from '@loopback/repository';
 import {GenericModel, ModelInsertTorneo} from '../models';
 import {inject} from '@loopback/core';
-import {getModelSchemaRef, param, post, requestBody, response} from '@loopback/rest';
+import {get, getModelSchemaRef, param, post, requestBody, response} from '@loopback/rest';
 import {SQLConfig} from '../config/sql.config';
 
 // import {inject} from '@loopback/core';
@@ -26,7 +26,7 @@ export class TorneosController {
 
 
   //Metodos para el controlador de torneos
-  //Metodo para crear un torneo
+  //Metodo para crear un torneo-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
   @post('/crearTorneo')
   @response(200, {
@@ -91,8 +91,8 @@ export class TorneosController {
   }
 
 
-  //Endpoint para obtener un torneo por id
-  @post('/obtenerTorneoPorId/{id}')
+  //Endpoint para obtener un torneo por id-----------------------------------------------------------------------------------------------------------------------------------------------------------
+  @get('/obtenerTorneoPorId/{id}')
   @response(200, {
     description: 'obtener un torneo por id',
     content:{
@@ -109,8 +109,8 @@ export class TorneosController {
       const params =[id];
       //console.log(params);
       const result = await this.genericRepository.dataSource.execute(sql, params);
-      console.log(result);
-      console.log(result[0]);
+      //console.log(result);
+      //console.log(result[0]);
       //console.log(result[0].fun_obtener_torneo_por_id.resultado);
       //console.log(result[0].fun_obtener_torneo_por_id.datos);
       if(result[0] == undefined){
@@ -124,6 +124,189 @@ export class TorneosController {
         "CODIGO": 200,
         "MENSAJE": "Torneo obtenido correctamente",
         "DATOS": result[0]
+      };
+    }catch(error){
+      return {
+        "CODIGO": 500,
+        "MENSAJE": "Error al obtener datos  del TORNEO en la funcion de postgres ERROR POSTGRES",
+        "DATOS": error
+      };
+    }
+  }
+
+
+
+  //Metodo para obtener todos los torneos-----------------------------------------------------------------------------------------------------------------------------------------------------------
+  @get('/obtenerTorneos')
+  @response(200, {
+    description: 'obtener un torneo por id',
+    content:{
+      'aplication/json':{
+        schema:{
+          type: 'array',
+          items: getModelSchemaRef(ModelInsertTorneo),
+        },
+      },
+    },
+  })
+  async obtenerTorneos(
+  ):Promise<object>{
+    try{
+      const sql = SQLConfig.obtenerTorneos;
+      //console.log(params);
+      const result = await this.genericRepository.dataSource.execute(sql);
+      //(console.log(result);
+      //console.log(result[0]);
+      //console.log(result[0].fun_obtener_torneo_por_id.resultado);
+      //console.log(result[0].fun_obtener_torneo_por_id.datos);
+      if(result == undefined){
+        return {
+          "CODIGO": 2,
+          "MENSAJE": "Error al obtener datos  del TORNEO en la funcion de postgres FALSE",
+          "DATOS": "NO se enotro el torneo con id "
+        };
+      }
+      return {
+        "CODIGO": 200,
+        "MENSAJE": "Torneo obtenido correctamente",
+        "DATOS": result
+      };
+    }catch(error){
+      return {
+        "CODIGO": 500,
+        "MENSAJE": "Error al obtener datos  del TORNEO en la funcion de postgres ERROR POSTGRES",
+        "DATOS": error
+      };
+    }
+  }
+
+
+  //Metodo para obtener todos los torneos con estado 1 inscribirse-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+  @get('/obtenerTorneosActivos')
+  @response(200, {
+    description: 'obtener un torneo por id',
+    content:{
+      'aplication/json':{
+        schema:{
+          type: 'array',
+          items: getModelSchemaRef(ModelInsertTorneo),
+        },
+      },
+    },
+  })
+  async obtenerTorneosConID1(
+  ):Promise<object>{
+    try{
+      const sql = SQLConfig.obtenerTorneosActivos;
+      //console.log(params);
+      const result = await this.genericRepository.dataSource.execute(sql);
+      //console.log(result);
+      //console.log(result[0]);
+      //console.log(result[0].fun_obtener_torneo_por_id.resultado);
+      //console.log(result[0].fun_obtener_torneo_por_id.datos);
+      if(result == undefined){
+        return {
+          "CODIGO": 2,
+          "MENSAJE": "Error al obtener datos  del TORNEO en la funcion de postgres FALSE",
+          "DATOS": "NO se enotro el torneo con id "
+        };
+      }
+      return {
+        "CODIGO": 200,
+        "MENSAJE": "Torneo obtenido correctamente",
+        "DATOS": result
+      };
+    }catch(error){
+      return {
+        "CODIGO": 500,
+        "MENSAJE": "Error al obtener datos  del TORNEO en la funcion de postgres ERROR POSTGRES",
+        "DATOS": error
+      };
+    }
+  }
+
+    //Metodo para obtener todos los torneos con estado 2 en juego-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    @get('/obtenerTorneosEnJuego')
+    @response(200, {
+      description: 'obtener un torneo por id',
+      content:{
+        'aplication/json':{
+          schema:{
+            type: 'array',
+            items: getModelSchemaRef(ModelInsertTorneo),
+          },
+        },
+      },
+    })
+    async obtenerTorneosConID2(
+    ):Promise<object>{
+      try{
+        const sql = SQLConfig.obtenerTorneosEnJuego;
+        //console.log(params);
+        const result = await this.genericRepository.dataSource.execute(sql);
+        //console.log(result);
+        //console.log(result[0]);
+        //console.log(result[0].fun_obtener_torneo_por_id.resultado);
+        //console.log(result[0].fun_obtener_torneo_por_id.datos);
+        if(result == undefined){
+          return {
+            "CODIGO": 2,
+            "MENSAJE": "Error al obtener datos  del TORNEO en la funcion de postgres FALSE",
+            "DATOS": "NO se enotro el torneo con id "
+          };
+        }
+        return {
+          "CODIGO": 200,
+          "MENSAJE": "Torneo obtenido correctamente",
+          "DATOS": result
+        };
+      }catch(error){
+        return {
+          "CODIGO": 500,
+          "MENSAJE": "Error al obtener datos  del TORNEO en la funcion de postgres ERROR POSTGRES",
+          "DATOS": error
+        };
+      }
+    }
+
+
+//Metodo para obtener todos los torneos con estado 3 FINALIZADO-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+  @get('/obtenerTorneosfinalizados')
+  @response(200, {
+    description: 'obtener un torneo por id',
+    content:{
+      'aplication/json':{
+        schema:{
+          type: 'array',
+          items: getModelSchemaRef(ModelInsertTorneo),
+        },
+      },
+    },
+  })
+  async obtenerTorneosConID3(
+  ):Promise<object>{
+    try{
+      const sql = SQLConfig.obtenerTorneosFinalizados;
+      //console.log(params);
+      const result = await this.genericRepository.dataSource.execute(sql);
+      //console.log(result);
+      //console.log(result[0]);
+      //console.log(result[0].fun_obtener_torneo_por_id.resultado);
+      //console.log(result[0].fun_obtener_torneo_por_id.datos);
+      if(result == undefined){
+        return {
+          "CODIGO": 2,
+          "MENSAJE": "Error al obtener datos  del TORNEO en la funcion de postgres FALSE",
+          "DATOS": "NO se enotro el torneo con id "
+        };
+      }
+      return {
+        "CODIGO": 200,
+        "MENSAJE": "Torneo obtenido correctamente",
+        "DATOS": result
       };
     }catch(error){
       return {
