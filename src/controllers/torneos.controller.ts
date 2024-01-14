@@ -3,7 +3,7 @@
 import {DefaultCrudRepository, juggler} from '@loopback/repository';
 import {GenericModel, ModelInsertTorneo} from '../models';
 import {inject} from '@loopback/core';
-import {getModelSchemaRef, post, requestBody, response} from '@loopback/rest';
+import {getModelSchemaRef, param, post, requestBody, response} from '@loopback/rest';
 import {SQLConfig} from '../config/sql.config';
 
 // import {inject} from '@loopback/core';
@@ -89,6 +89,51 @@ export class TorneosController {
       };
     }
   }
+
+
+  //Endpoint para obtener un torneo por id
+  @post('/obtenerTorneoPorId/{id}')
+  @response(200, {
+    description: 'obtener un torneo por id',
+    content:{
+      'aplication/json':{
+        schema: getModelSchemaRef(ModelInsertTorneo),
+      },
+    },
+  })
+  async obtenerTorneoPorId(
+    @param.path.number('id') id: number,
+  ):Promise<object>{
+    try{
+      const sql = SQLConfig.obtenerTorneoPorId;
+      const params =[id];
+      //console.log(params);
+      const result = await this.genericRepository.dataSource.execute(sql, params);
+      console.log(result);
+      console.log(result[0]);
+      //console.log(result[0].fun_obtener_torneo_por_id.resultado);
+      //console.log(result[0].fun_obtener_torneo_por_id.datos);
+      if(result[0] == undefined){
+        return {
+          "CODIGO": 2,
+          "MENSAJE": "Error al obtener datos  del TORNEO en la funcion de postgres FALSE",
+          "DATOS": "NO se enotro el torneo con id "+id
+        };
+      }
+      return {
+        "CODIGO": 200,
+        "MENSAJE": "Torneo obtenido correctamente",
+        "DATOS": result[0]
+      };
+    }catch(error){
+      return {
+        "CODIGO": 500,
+        "MENSAJE": "Error al obtener datos  del TORNEO en la funcion de postgres ERROR POSTGRES",
+        "DATOS": error
+      };
+    }
+  }
+
 
 
 
