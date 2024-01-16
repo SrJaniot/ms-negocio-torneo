@@ -155,15 +155,15 @@ export class TorneosController {
       const sql = SQLConfig.obtenerTorneos;
       //console.log(params);
       const result = await this.genericRepository.dataSource.execute(sql);
-      //(console.log(result);
+      //console.log(result);
       //console.log(result[0]);
       //console.log(result[0].fun_obtener_torneo_por_id.resultado);
       //console.log(result[0].fun_obtener_torneo_por_id.datos);
-      if(result == undefined){
+      if(result[0] == undefined){
         return {
           "CODIGO": 2,
           "MENSAJE": "Error al obtener datos  del TORNEO en la funcion de postgres FALSE",
-          "DATOS": "NO se enotro el torneo con id "
+          "DATOS": "NO se enotro el torneo  "
         };
       }
       return {
@@ -205,11 +205,11 @@ export class TorneosController {
       //console.log(result[0]);
       //console.log(result[0].fun_obtener_torneo_por_id.resultado);
       //console.log(result[0].fun_obtener_torneo_por_id.datos);
-      if(result == undefined){
+      if(result[0] == undefined){
         return {
           "CODIGO": 2,
           "MENSAJE": "Error al obtener datos  del TORNEO en la funcion de postgres FALSE",
-          "DATOS": "NO se enotro el torneo con id "
+          "DATOS": "NO se enotro el torneo  "
         };
       }
       return {
@@ -250,11 +250,11 @@ export class TorneosController {
         //console.log(result[0]);
         //console.log(result[0].fun_obtener_torneo_por_id.resultado);
         //console.log(result[0].fun_obtener_torneo_por_id.datos);
-        if(result == undefined){
+        if(result[0] == undefined){
           return {
             "CODIGO": 2,
             "MENSAJE": "Error al obtener datos  del TORNEO en la funcion de postgres FALSE",
-            "DATOS": "NO se enotro el torneo con id "
+            "DATOS": "NO se enotro el torneo  "
           };
         }
         return {
@@ -296,11 +296,11 @@ export class TorneosController {
       //console.log(result[0]);
       //console.log(result[0].fun_obtener_torneo_por_id.resultado);
       //console.log(result[0].fun_obtener_torneo_por_id.datos);
-      if(result == undefined){
+      if(result[0] == undefined){
         return {
           "CODIGO": 2,
           "MENSAJE": "Error al obtener datos  del TORNEO en la funcion de postgres FALSE",
-          "DATOS": "NO se enotro el torneo con id "
+          "DATOS": "NO se enotro el torneo "
         };
       }
       return {
