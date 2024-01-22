@@ -150,8 +150,8 @@ export class EquiposController {
        const params =[id];
        //console.log(params);
        const result = await this.genericRepository.dataSource.execute(sql, params);
-       console.log(result);
-       //console.log(result[0]);
+       //console.log(result);
+       console.log(result[0]);
        //console.log(result[0].fun_obtener_torneo_por_id.resultado);
        //console.log(result[0].fun_obtener_torneo_por_id.datos);
        if(result[0] == undefined){
