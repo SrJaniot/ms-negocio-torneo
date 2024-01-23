@@ -5,6 +5,8 @@ import {GenericModel, ModelInsertTorneo} from '../models';
 import {inject} from '@loopback/core';
 import {get, getModelSchemaRef, param, post, requestBody, response} from '@loopback/rest';
 import {SQLConfig} from '../config/sql.config';
+import {authenticate} from '@loopback/authentication';
+import {ConfiguracionSeguridad} from '../config/configuracion.seguridad';
 
 // import {inject} from '@loopback/core';
 
@@ -137,6 +139,12 @@ export class TorneosController {
 
 
   //Metodo para obtener todos los torneos-----------------------------------------------------------------------------------------------------------------------------------------------------------
+  //autenticacion 
+  @authenticate({
+    strategy: 'auth',
+    options:[ConfiguracionSeguridad.menuTorneoID,ConfiguracionSeguridad.listarAccion]
+  })
+
   @get('/obtenerTorneos')
   @response(200, {
     description: 'obtener un torneo por id',
