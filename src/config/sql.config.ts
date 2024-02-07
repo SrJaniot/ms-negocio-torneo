@@ -13,6 +13,9 @@ export namespace SQLConfig {
   export const obtenerEquipoPorId = 'SELECT id_equipo, nom_equipo, desc_equipo, foto_equipo, id_game, estado_equipo, tamanio_equipo, lider_equipo, numero_torneos_ganados FROM tab_equipo WHERE id_equipo = $1';
   export const obtenerEquipoFULLPorId = 'SELECT fun_get_equipoFULL($1)';
 
+  //funciones para el controlador publico SQL -----------------------------------------------------------------------------
+  export const obtenerCiudades = 'SELECT * FROM tab_ciudad';
+
 
 
 
