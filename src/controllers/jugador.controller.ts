@@ -83,8 +83,6 @@ async obtenerTorneoPorId(
     }
   }
   //autenticacion
-  @authenticate('auth_id_jugador')
-
   //actualizar jugador foto jugador
   /**
    *  Funcion para actualizar la foto de un jugador en la base de datos postgresql-----------------------------------------------------------------------------------------
@@ -92,6 +90,7 @@ async obtenerTorneoPorId(
    * @param foto
    * @returns jugador
    */
+  @authenticate('auth_id_jugador')
   @post('/ActualizarFotoJugador')
   @response(200, {
     description: 'actualizar foto de un jugador',
@@ -126,6 +125,7 @@ async obtenerTorneoPorId(
               idPostgresToken = json;
             });
             //console.log(idPostgresToken);
+            //valida que el id del jugador sea el mismo que el id del usuario autenticado gracias a que idPostgresToken es el id del usuario autenticado
             if (jugador.id_jugador != idPostgresToken){
               return {
                 "CODIGO": 401,
