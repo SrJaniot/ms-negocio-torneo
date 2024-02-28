@@ -4,8 +4,13 @@ import {GenericModel, ModelInsertEquipo,} from '../models';
 import {inject} from '@loopback/core';
 import {get, getModelSchemaRef, param, post, requestBody, response} from '@loopback/rest';
 import {SQLConfig} from '../config/sql.config';
+import {ConfiguracionSeguridad} from '../config/configuracion.seguridad';
 
 // import {inject} from '@loopback/core';
+
+
+const fetch = require('node-fetch');
+
 
 
 export class EquiposController {
@@ -49,12 +54,43 @@ export class EquiposController {
   ): Promise<object> {
     try{
     const sql = SQLConfig.crearEquipo;
+    const urlGenerarHash_100= `${ConfiguracionSeguridad.hostSeguridad}/generar-hash-100`;
+    let hash_Equipojson=undefined;
+    let hash_Equipo:string="";
+        try{
+          // Obtén el ID del usuario desde el token llamando al servicio de seguridad con endpoint /obtener-id-postgres
+            await fetch (urlGenerarHash_100, {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+          }).then((res: any) => res.json())
+            .then((json: any) => {
+              hash_Equipojson = json;
+
+            });
+            hash_Equipo=hash_Equipojson!.hash;
+
+        }
+        catch(error){
+          return {
+            "CODIGO": 500,
+            "MENSAJE": "ERROR AL GENERAR EL HASH, PUEDE SER ERROR EN LA CONEXION CON EL SERVICIO DE SEGURIDAD O EL SERVICIO DE SEGURIDAD NO ESTA DISPONIBLE",
+            "DATOS": error
+          };
+        }
+
+    //console.log(hash_Equipojson);
+    //imprime el tipo de dato de la variable
+    //console.log(typeof hash_Equipojson);
+
+    //console.log(hash_Equipo);
+    //console.log(typeof hash_Equipo);
     const parametros = [
       equipo.nomEquipo,
        equipo.descEquipo,
        equipo.fotoEquipo,
        equipo.liderEquipo,
-       equipo.idGame
+       equipo.idGame,
+       hash_Equipo,
       ];
     const result = await this.genericRepository.dataSource.execute(sql, parametros);
     //console.log(result);
@@ -65,7 +101,7 @@ export class EquiposController {
     if(result[0].fun_insert_equipo.resultado ===false){
       return {
         "CODIGO": 2,
-        "MENSAJE": "Error al insertar datos  del TORNEO en la funcion de postgres FALSE puede ser por que el juego no existe  o el lider tiene ya equipo creado o el nombre esta duplicado",
+        "MENSAJE": "Error al insertar datos  del equipo en la funcion de postgres FALSE puede ser por que el juego no existe  o el lider tiene ya equipo creado o el nombre esta duplicado",
         "DATOS": result[0].fun_insert_equipo.resultado
       };
     };
