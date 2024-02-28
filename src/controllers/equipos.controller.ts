@@ -108,7 +108,10 @@ export class EquiposController {
     return {
       "CODIGO": 200,
       "MENSAJE": "equipo creado correctamente",
-      "DATOS": result[0].fun_insert_equipo.id_equipo
+      "DATOS": {
+        "idEquipo": result[0].fun_insert_equipo.id_equipo,
+        "hashEquipo": hash_Equipo
+      }
     };
   }catch(error){
     return {
