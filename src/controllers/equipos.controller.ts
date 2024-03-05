@@ -191,14 +191,15 @@ export class EquiposController {
        //console.log(params);
        const result = await this.genericRepository.dataSource.execute(sql, params);
        //console.log(result);
-       console.log(result[0]);
+       //console.log(result[0]);
+       //console.log(result[0].fun_get_equipofull);
        //console.log(result[0].fun_obtener_torneo_por_id.resultado);
        //console.log(result[0].fun_obtener_torneo_por_id.datos);
-       if(result[0] == undefined){
+       if(result[0].fun_get_equipofull ==  undefined || result[0].fun_get_equipofull == null){
          return {
            "CODIGO": 2,
            "MENSAJE": "Error al obtener datos  del EQUIPO en la funcion de postgres FALSE",
-           "DATOS": "NO se enotro el EQUIPO con id "+id
+           "DATOS": "NO se encotro el EQUIPO con id "+id
          };
        }
        return {
