@@ -5,6 +5,7 @@ import {inject} from '@loopback/core';
 import {get, getModelSchemaRef, param, post, requestBody, response} from '@loopback/rest';
 import {SQLConfig} from '../config/sql.config';
 import {ConfiguracionSeguridad} from '../config/configuracion.seguridad';
+import {authenticate} from '@loopback/authentication';
 
 // import {inject} from '@loopback/core';
 
@@ -216,7 +217,7 @@ export class EquiposController {
 
 
    //endponit para vincular un jugador a un equipo por medio de un link -----------------------------------------------------------------------------------------------------------------------------------------------------------
-
+    @authenticate('auth_id_jugador')
     @post('/vincularJugadorEquipo')
     @response(200, {
       description: 'Equipo model instance',
