@@ -74,6 +74,60 @@ export class ModelInsertTorneo extends Model {
   })
   id_game: number;
 
+  @property({
+    type: 'string',
+    required: true,
+  })
+  informacion_general: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  informacion_reglas: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  foto_premio_torneo_1: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  foto_premio_torneo_2: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  foto_premio_torneo_3: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  foto_carta_fondo: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  foto_carta_titulo: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  foto_carta_personaje: string;
+
+
+
+
+
+
+
 
   constructor(data?: Partial<ModelInsertTorneo>) {
     super(data);

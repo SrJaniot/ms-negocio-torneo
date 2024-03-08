@@ -66,6 +66,14 @@ export class TorneosController {
         data.cantidad_equipos,
         data.valor_dinero_torneo,
         data.id_game,
+        data.informacion_general,
+        data.informacion_reglas,
+        data.foto_premio_torneo_1,
+        data.foto_premio_torneo_2,
+        data.foto_premio_torneo_3,
+        data.foto_carta_fondo,
+        data.foto_carta_titulo,
+        data.foto_carta_personaje
       ];
       const result = await this.genericRepository.dataSource.execute(sql, params);
       //console.log(result[0]);
@@ -139,7 +147,7 @@ export class TorneosController {
 
 
   //Metodo para obtener todos los torneos-----------------------------------------------------------------------------------------------------------------------------------------------------------
-  //autenticacion 
+  //autenticacion
   @authenticate({
     strategy: 'auth',
     options:[ConfiguracionSeguridad.menuTorneoID,ConfiguracionSeguridad.listarAccion]
