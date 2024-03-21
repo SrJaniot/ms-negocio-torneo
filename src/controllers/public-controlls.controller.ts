@@ -65,6 +65,43 @@ export class PublicControllsController {
   }
 
 
+  //metodo para obtener la tabla tab_tipodocumento
+  /**
+   * Funcion para obtener la tabla tab_tipodocumento de la base de datos postgresql-----------------------------------------------------------------------------------------
+   * @returns lista de tipos de documentos
+   */
+    @get('/obtenerTiposDocumentos')
+    @response(200, {
+      description: 'TipoDocumento model instance',
+      content: {'application/json':{
+        schema: getModelSchemaRef(GenericModel)
+      },
+    },
+    })
+    async obtenerTipoDocumento(): Promise<object> {
+      try{
+      const sql = SQLConfig.obtenerTipoDocumento;
+      const result = await this.genericRepository.dataSource.execute(sql);
+      if(result.length === 0){
+        return {
+          "CODIGO": 404,
+          "MENSAJE": "No se encontraron datos",
+          "DATOS": result
+        };
+      }
+
+      return {
+        "CODIGO": 200,
+        "MENSAJE": "OK",
+        "DATOS": result
+      };
+    }catch(error){
+      return error;
+    }
+  }
+
+
+
 
 
 

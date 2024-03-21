@@ -21,6 +21,7 @@ export namespace SQLConfig {
 
   //funciones para el controlador publico SQL -----------------------------------------------------------------------------
   export const obtenerCiudades = 'SELECT * FROM tab_ciudad';
+  export const obtenerTipoDocumento = 'SELECT * FROM tab_tipodocumento';
 
 
 
