@@ -13,6 +13,7 @@ export namespace SQLConfig {
   export const obtenerEquipoPorId = 'SELECT id_equipo, nom_equipo, desc_equipo, foto_equipo, id_game, estado_equipo, tamanio_equipo, lider_equipo, numero_torneos_ganados FROM tab_equipo WHERE id_equipo = $1';
   export const obtenerEquipoFULLPorId = 'SELECT fun_get_equipoFULL($1)';
   export const vincularJugadorEquipo = 'SELECT fun_insert_jugador_equipo_HASH($1,$2,$3)';
+  export const registrarEquipoEnTorneo = 'SELECT fun_insert_equipo_torneo($1,$2,$3)';
 
   //funciones para el controlador de jugadores SQL ---------------------------------------------------------------------------
   export const obtenerJugadorPorId = 'SELECT fun_get_jugador_ID_PERFIL($1)';

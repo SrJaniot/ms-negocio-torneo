@@ -1,6 +1,6 @@
 // Uncomment these imports to begin using these cool features!
 import {DefaultCrudRepository, juggler} from '@loopback/repository';
-import {GenericModel, ModelInsertEquipo, VincularJugadorEquipo,} from '../models';
+import {GenericModel, ModelInsertEquipo, ModelInsertEquipoTorneo, VincularJugadorEquipo,} from '../models';
 import {inject} from '@loopback/core';
 import {get, getModelSchemaRef, param, post, requestBody, response} from '@loopback/rest';
 import {SQLConfig} from '../config/sql.config';
@@ -271,4 +271,83 @@ export class EquiposController {
         };
       }
     }
+
+    //Endpoint para registrar un equipo en un torneo-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    @authenticate('auth_id_jugador')
+    @post('/registrarEquipoEnTorneo')
+    @response(200, {
+      description: 'Equipo model instance',
+      content: {'application/json':{
+        schema: getModelSchemaRef(ModelInsertEquipoTorneo)
+      },
+    },
+    })
+    async registrarEquipoEnTorneo(
+      @requestBody({
+        content: {
+          'application/json': {
+            schema: getModelSchemaRef(ModelInsertEquipoTorneo)
+          },
+        },
+      })
+      equipo: ModelInsertEquipoTorneo,
+    ): Promise<object> {
+      try{
+      const sql = SQLConfig.registrarEquipoEnTorneo;
+      const parametros = [
+        equipo.id_equipo,
+        equipo.id_torneo,
+        equipo.id_lider
+      ];
+      const result = await this.genericRepository.dataSource.execute(sql, parametros);
+      //console.log(result);
+      //console.log(result[0]);
+      //console.log(result[0].fun_insert_jugador_equipo_hash);
+
+      if(result[0].fun_insert_equipo_torneo ===false){
+        return {
+          "CODIGO": 2,
+          "MENSJAE": "Error al insertar en la funcion de postgres FALSE",
+          "DATOS": result[0].fun_insert_equipo_torneo
+        };
+      }
+      return {
+        "CODIGO": 200,
+        "MENSAJE": "equipo registrado al torneo correctamente",
+        "DATOS": result[0].fun_insert_equipo_torneo
+      };
+
+    }
+      catch(error){
+        return {
+          "CODIGO": 500,
+          "MENSAJE": "Error al insertar datos  del TORNEO en la funcion de postgres ERROR POSTGRES",
+          "DATOS": error
+        };
+      }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
