@@ -9,6 +9,12 @@ export class ModeloCodigoQr extends Model {
   id_datos_personales: number;
 
   @property({
+    type: 'number',
+    required: true,
+  })
+  id_evento: number;
+
+  @property({
     type: 'string',
     required: true,
   })

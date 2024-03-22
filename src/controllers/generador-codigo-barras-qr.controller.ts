@@ -49,8 +49,8 @@ export class GeneradorCodigoBarrasQrController {
   @post('/generateBarcode')
   async generateBarcode(@requestBody() data: ModeloCodigoQr): Promise<string> {
     try {
-      const { id_datos_personales, hash_validacion } = data;
-      const text = `${id_datos_personales}-${hash_validacion}`; // Formatear la cadena como "i-h"
+      const { id_datos_personales, hash_validacion, id_evento } = data;
+      const text = `${id_datos_personales}-${id_evento}-${hash_validacion}`; // Formatear la cadena como "i-h"
 
       if (!text) {
         throw new Error('Missing text property in request body');
