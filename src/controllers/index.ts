@@ -5,3 +5,4 @@ export * from './administrador-de-archivos.controller';
 export * from './public-controlls.controller';
 export * from './jugador.controller';
 export * from './generador-codigo-barras-qr.controller';
+export * from './eventos.controller';

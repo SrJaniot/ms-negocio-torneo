@@ -1,7 +1,12 @@
 export namespace SQLConfig {
 
-  //funciones para el controlador de torneos SQL ----------------------------------------------------------------------------
+  //funciones para el controlador de eventos SQL -------------------------------------------------------------------------------
   export const crearEvento = 'SELECT fun_insert_evento($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19)';
+  export const obtenerEventoActivos= 'SELECT id_evento,foto_carta_fondo,foto_carta_titulo,foto_carta_personaje FROM tab_evento WHERE estado_evento = 1';
+  export const obtenerEventoEnCurso= 'SELECT id_evento,foto_carta_fondo,foto_carta_titulo,foto_carta_personaje FROM tab_evento WHERE estado_evento = 2';
+  export const obtenerEventoFinalizados= 'SELECT id_evento,foto_carta_fondo,foto_carta_titulo,foto_carta_personaje FROM tab_evento WHERE estado_evento = 3';
+  export const obtenerEventoPorId = 'SELECT fun_get_evento2($1)';
+  //funciones para el controlador de torneos SQL ----------------------------------------------------------------------------
   export const crearTorneo = 'SELECT fun_insert_torneo($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21)';
   export const obtenerTorneoPorId = 'SELECT id_torneo, nom_torneo, desc_torneo, fecha_inicio_torneo,fecha_fin_torneo, foto_torneo,premio_torneo_1,premio_torneo_2,premio_torneo_3,video_explica_torneo,cantidad_equipos,cantidad_match,valor_dinero_torneo, id_game, estado_torneo, informacion_general, informacion_reglas, foto_premio_torneo_1, foto_premio_torneo_2, foto_premio_torneo_3, foto_carta_fondo, foto_carta_titulo, foto_carta_personaje, id_evento  FROM  tab_torneo WHERE id_torneo = $1';
   export const obtenerTorneos = 'SELECT id_torneo, nom_torneo, desc_torneo, fecha_inicio_torneo,fecha_fin_torneo, foto_torneo,premio_torneo_1,premio_torneo_2,premio_torneo_3,video_explica_torneo,cantidad_equipos,cantidad_match,valor_dinero_torneo, id_game, estado_torneo, informacion_general, informacion_reglas, foto_premio_torneo_1, foto_premio_torneo_2, foto_premio_torneo_3, foto_carta_fondo, foto_carta_titulo, foto_carta_personaje, id_evento  FROM  tab_torneo';
