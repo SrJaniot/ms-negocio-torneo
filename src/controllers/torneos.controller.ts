@@ -1,7 +1,7 @@
 // Uncomment these imports to begin using these cool features!
 
 import {DefaultCrudRepository, juggler} from '@loopback/repository';
-import {GenericModel, ModelInsertEvento, ModelInsertTorneo, ModelRegistrarUsuarioEvento} from '../models';
+import {GenericModel, ModelInsertEvento, ModelInsertTorneo, ModelRegistrarEquipoTorneo, ModelRegistrarUsuarioEvento, ModelRegistrarUsuarioTorneo} from '../models';
 import {inject} from '@loopback/core';
 import {get, getModelSchemaRef, param, post, requestBody, response} from '@loopback/rest';
 import {SQLConfig} from '../config/sql.config';
@@ -30,7 +30,7 @@ export class TorneosController {
   }
 
 
- 
+
 
 
   //Metodos para el controlador de torneos
@@ -339,6 +339,161 @@ export class TorneosController {
       };
     }
   }
+
+
+
+
+  //METODO PARA RETORNAR NUMERO DE INTEGRANTES DE EQUIPO POR TORNEO-----------------------------------------------------------------------------------------------------------------------------------------------------------
+  @get('/validarNumeroIntegrantesEquipoTorneo/{id}')
+  @response(200, {
+    description: 'obtener un torneo por id',
+    content:{
+      'aplication/json':{
+        schema: getModelSchemaRef(ModelInsertTorneo),
+      },
+    },
+  })
+  async validarNumeroIntegrantesEquipoTorneo(
+    @param.path.number('id') id: number,
+  ):Promise<object>{
+    try{
+      const sql = SQLConfig.validarNumeroIntegrantesEquipoTorneo;
+      const params =[id];
+      //console.log(params);
+      const result = await this.genericRepository.dataSource.execute(sql, params);
+      //console.log(result);
+      //console.log(result[0]);
+      //console.log(result[0].fun_obtener_torneo_por_id.resultado);
+      //console.log(result[0].fun_obtener_torneo_por_id.datos);
+      if(result[0] == undefined){
+        return {
+          "CODIGO": 2,
+          "MENSAJE": "Error al obtener datos  del TORNEO en la funcion de postgres FALSE",
+          "DATOS": "NO se enotro el torneo con id "+id
+        };
+      }
+      return {
+        "CODIGO": 200,
+        "MENSAJE": "numero de integrantes obtenido correctamente",
+        "DATOS": result[0].fun_validar_numero_integrantes_equipo_torneo
+      };
+    }catch(error){
+      return {
+        "CODIGO": 500,
+        "MENSAJE": "Error al obtener datos  del TORNEO en la funcion de postgres ERROR POSTGRES",
+        "DATOS": error
+      };
+    }
+  }
+
+
+// metodo post para vincular un usuario a un torneo-----------------------------------------------------------------------------------------------------------------------------------------------------------
+  @post('/vincularUsuarioTorneo')
+  @response(200, {
+    description: 'vincular un usuario a un torneo',
+    content:{
+      'aplication/json':{
+        schema: getModelSchemaRef(ModelRegistrarUsuarioTorneo),
+      },
+    },
+  })
+  async vincularUsuarioTorneo(
+    @requestBody({
+      content:{
+        'aplication/json':{
+          schema: getModelSchemaRef(ModelRegistrarUsuarioTorneo),
+        },
+      },
+    })
+    data: ModelRegistrarUsuarioTorneo,
+  ):Promise<object>{
+    try{
+      const sql = SQLConfig.vincularUsuarioTorneo;
+      const params =[
+        data.id_usuario,
+        data.id_torneo,
+      ];
+      const result = await this.genericRepository.dataSource.execute(sql, params);
+      //console.log(result[0]);
+      //console.log(result[0].fun_insert_usuario_evento.resultado);
+      //console.log(result[0].fun_insert_usuario_evento.id_usuario_evento);
+      if(result[0].fun_insert_usuario_torneo ===false){
+        return {
+          "CODIGO": 2,
+          "MENSAJE": "Error al insertar datos  del USUARIO en el TORNEO en la funcion de postgres FALSE",
+          "DATOS": result[0].fun_insert_usuario_torneo
+        };
+      }
+      return {
+        "CODIGO": 200,
+        "MENSAJE": "Usuario vinculado correctamente",
+        "DATOS": result[0].fun_insert_usuario_torneo
+      };
+    }catch(error){
+      return {
+        "CODIGO": 500,
+        "MENSAJE": "Error al insertar datos  del USUARIO en el TORNEO en la funcion de postgres ERROR POSTGRES",
+        "DATOS": error
+      };
+    }
+  }
+
+
+  // metodo post para vincular un EQUIPO a un torneo-----------------------------------------------------------------------------------------------------------------------------------------------------------
+  @post('/vincularEquipoTorneo')
+  @response(200, {
+    description: 'vincular un equipo a un torneo',
+    content:{
+      'aplication/json':{
+        schema: getModelSchemaRef(ModelRegistrarEquipoTorneo),
+      },
+    },
+  })
+  async vincularEquipoTorneo(
+    @requestBody({
+      content:{
+        'aplication/json':{
+          schema: getModelSchemaRef(ModelRegistrarEquipoTorneo),
+        },
+      },
+    })
+    data: ModelRegistrarEquipoTorneo,
+  ):Promise<object>{
+    try{
+      const sql = SQLConfig.vincularEquipoTorneo;
+      const params =[
+        data.id_equipo,
+        data.id_torneo,
+        data.id_liderEquipo
+      ];
+      const result = await this.genericRepository.dataSource.execute(sql, params);
+      //console.log(result[0]);
+      //console.log(result[0].fun_insert_usuario_evento.resultado);
+      //console.log(result[0].fun_insert_usuario_evento.id_usuario_evento);
+      if(result[0].fun_insert_equipo_torneo ===false){
+        return {
+          "CODIGO": 2,
+          "MENSAJE": "Error al insertar datos  del EQUIPO en el TORNEO en la funcion de postgres FALSE",
+          "DATOS": result[0].fun_insert_equipo_torneo
+        };
+      }
+      return {
+        "CODIGO": 200,
+        "MENSAJE": "Usuario vinculado correctamente",
+        "DATOS": result[0].fun_insert_equipo_torneo
+      };
+    }catch(error){
+      return {
+        "CODIGO": 500,
+        "MENSAJE": "Error al insertar datos  del USUARIO en el TORNEO en la funcion de postgres ERROR POSTGRES",
+        "DATOS": error
+      };
+    }
+  }
+
+
+
+
 
 
 

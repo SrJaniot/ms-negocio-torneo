@@ -373,8 +373,56 @@ async obtenerTorneoPorId(
 }
 
 
+//metodo para validar el aforo del evento A PARTIR DEL ID-----------------------------------------------------------------------------------------------------------------------------------------------------------
+@get('/validarAforoEvento/{id_evento}')
+@response(200, {
+  description: 'obtener un torneo por id',
+  content:{
+    'aplication/json':{
+      schema: getModelSchemaRef(ModelInsertEvento),
+    },
+  },
+})
+async validarAforoEvento(
+  @param.path.number('id_evento') id_evento: number,
+):Promise<object>{
+  try{
+    const sql = SQLConfig.validarAforoEvento;
+    const params =[id_evento];
+    //console.log(params);
+    const result = await this.genericRepository.dataSource.execute(sql, params);
+    //console.log(result);
+    //console.log(result[0]);
+    //console.log(result[0].fun_obtener_torneo_por_id.resultado);
+    //console.log(result[0].fun_obtener_torneo_por_id.datos);
+    if(result[0].fun_validar_aforo_evento == false){
+      return {
+        "CODIGO": 2,
+        "MENSAJE": "Error al obtener datos  del EVENTO en la funcion de postgres FALSE: aforo < num_personas inscritas",
+        "DATOS": result[0].fun_validar_aforo_evento
+      };
+    }
+    return {
+      "CODIGO": 200,
+      "MENSAJE": " Correcto aforo > num_personas inscritas",
+      "DATOS": result[0].fun_validar_aforo_evento
+    };
+  }catch(error){
+    return {
+      "CODIGO": 500,
+      "MENSAJE": "Error al obtener datos  del EVENTO en la funcion de postgres ERROR POSTGRES",
+      "DATOS": error
+    };
+  }
+}
+
+
+
 
 
 
 
 }
+
+
+
