@@ -34,6 +34,9 @@ export namespace SQLConfig {
   export const obtenerCiudades = 'SELECT * FROM tab_ciudad';
   export const obtenerTipoDocumento = 'SELECT * FROM tab_tipodocumento';
 
+  //funciones para el controlador de tiket SQL -----------------------------------------------------------------------------
+  export const obtenerDatosUsuarioTiket = 'SELECT fun_get_jugador_codigo_barras_evento($1,$2,$3)';
+
 
 
 
