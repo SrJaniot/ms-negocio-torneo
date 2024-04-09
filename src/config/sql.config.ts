@@ -36,6 +36,7 @@ export namespace SQLConfig {
 
   //funciones para el controlador de tiket SQL -----------------------------------------------------------------------------
   export const obtenerDatosUsuarioTiket = 'SELECT fun_get_jugador_codigo_barras_evento($1,$2,$3)';
+  export const actualizarAsistenciaTiket='SELECT fun_update_asistencia_evento($1,$2,$3)';
 
 
 

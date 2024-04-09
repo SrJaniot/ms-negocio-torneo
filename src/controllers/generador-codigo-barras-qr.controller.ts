@@ -15,6 +15,8 @@ import {ModeloCodigoQr} from '../models';
 //import para usar generador de codigos de barras  'npm install pdfkit' 'npm install --save-dev @types/pdfkit'
 import PDFDocument from 'pdfkit';
 import * as puppeteer from 'puppeteer';
+import { readFile } from 'fs/promises';
+
 
 
 
@@ -88,13 +90,18 @@ async generateQRCodePDF(@requestBody() data: ModeloCodigoQr): Promise<void> {
         <div class="ticket airline">
           <div class="top">
             <img src="${qrCodeDataUrl}" width="200" height="200">
+            <br>
             <p><span>Boleta válida solo para 1 persona</span></p>
             <p>${data.nom_evento}</p>
+
           </div>
 
           <div class="bottom">
+          <br>
+
             <div class="column">
               <div class="row row-1">
+                <br>
                 <p><span>Fecha</span>${data.fecha_evento}</p>
                 <p class="row--center"><span>Inicio</span>${data.hora_inicio}</p>
                 <p class="row--right"><span>Finaliza</span>${data.hora_fin}</p>
@@ -126,6 +133,7 @@ async generateQRCodePDF(@requestBody() data: ModeloCodigoQr): Promise<void> {
         position: relative;
         width: 100%;
         height: 100vh;
+        color: #fff;
       }
       .container .ticket {
         position: absolute;
@@ -176,8 +184,7 @@ async generateQRCodePDF(@requestBody() data: ModeloCodigoQr): Promise<void> {
       .airline .bottom {
         height: 355px;
 
-        background-image: url("../src/prueba.jpg");
-
+        background-image: url("https://i.postimg.cc/KjrLNJnd/prueba.jpg");
         background-repeat: no-repeat;
         background-size: cover; /* Esto hará que la imagen de fondo cubra todo el div */
         border-bottom-right-radius: 25px;
@@ -279,7 +286,7 @@ async generateQRCodePDF(@requestBody() data: ModeloCodigoQr): Promise<void> {
     await page.setContent(html);
 
     // Generar el PDF
-    const pdf = await page.pdf({ format: 'A4' });
+    const pdf = await page.pdf({ format: 'A4', printBackground: true });
 
     // Cerrar Puppeteer
     await browser.close();
@@ -317,6 +324,12 @@ async generateQRCodePDF2_GET(
     const data = { id_evento,id_datos_personales, hash_validacion };
     const qrCodeDataUrl = await QRCode.toDataURL(JSON.stringify(data));
 
+
+
+
+
+
+
     // Crear el HTML
     const html = `
 
@@ -324,16 +337,20 @@ async generateQRCodePDF2_GET(
       <div class="container">
 
 
-        <div class="ticket airline">
+        <div class="ticket airline ">
           <div class="top">
             <img src="${qrCodeDataUrl}" width="200" height="200">
+            <br>
             <p><span>Boleta válida solo para 1 persona</span></p>
             <p>${nom_evento}</p>
           </div>
 
-          <div class="bottom">
+          <div class="bottom" >
+          <br>
+
             <div class="column">
               <div class="row row-1">
+
                 <p><span>Fecha</span>${fecha_evento}</p>
                 <p class="row--center"><span>Inicio</span>${hora_inicio}</p>
                 <p class="row--right"><span>Finaliza</span>${hora_fin}</p>
@@ -365,6 +382,8 @@ async generateQRCodePDF2_GET(
         position: relative;
         width: 100%;
         height: 100vh;
+        color: #fff;
+
       }
       .container .ticket {
         position: absolute;
@@ -395,6 +414,7 @@ async generateQRCodePDF2_GET(
         box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.3);
         border-radius: 25px;
         z-index: 3;
+
       }
       .airline .top {
         height: 220px;
@@ -415,8 +435,7 @@ async generateQRCodePDF2_GET(
       .airline .bottom {
         height: 355px;
 
-        background-image: url("../src/prueba.jpg");
-
+        background-image: url("https://i.postimg.cc/KjrLNJnd/prueba.jpg");
         background-repeat: no-repeat;
         background-size: cover; /* Esto hará que la imagen de fondo cubra todo el div */
         border-bottom-right-radius: 25px;
@@ -519,8 +538,7 @@ async generateQRCodePDF2_GET(
     await page.setContent(html);
 
     // Generar el PDF
-    const pdf = await page.pdf({ format: 'A4' });
-
+    const pdf = await page.pdf({ format: 'A4', printBackground: true });
     // Cerrar Puppeteer
     await browser.close();
 
@@ -728,8 +746,7 @@ async generateBarcode2pdf(@requestBody() data: ModeloCodigoQr): Promise<void> {
       .airline .bottom {
         height: 355px;
 
-        background-image: url("../src/prueba.jpg");
-
+        background-image: url("https://i.postimg.cc/KjrLNJnd/prueba.jpg");
         background-repeat: no-repeat;
         background-size: cover; /* Esto hará que la imagen de fondo cubra todo el div */
         border-bottom-right-radius: 25px;
@@ -831,7 +848,7 @@ async generateBarcode2pdf(@requestBody() data: ModeloCodigoQr): Promise<void> {
     await page.setContent(html);
 
     // Generar el PDF
-    const pdf = await page.pdf({ format: 'A4' });
+    const pdf = await page.pdf({ format: 'A4', printBackground: true });
 
     // Cerrar Puppeteer
     await browser.close();
@@ -986,8 +1003,7 @@ async generateBarcode2pdfGET(
       .airline .bottom {
         height: 355px;
 
-        background-image: url("../src/prueba.jpg");
-
+        background-image: url("https://i.postimg.cc/KjrLNJnd/prueba.jpg");
         background-repeat: no-repeat;
         background-size: cover; /* Esto hará que la imagen de fondo cubra todo el div */
         border-bottom-right-radius: 25px;
@@ -1090,7 +1106,7 @@ async generateBarcode2pdfGET(
     await page.setContent(html);
 
     // Generar el PDF
-    const pdf = await page.pdf({ format: 'A4' });
+    const pdf = await page.pdf({ format: 'A4', printBackground: true });
 
     // Cerrar Puppeteer
     await browser.close();

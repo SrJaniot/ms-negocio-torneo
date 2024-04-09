@@ -90,7 +90,78 @@ export class TiketController {
     }catch(error){
       return {
         "CODIGO": 500,
-        "MENSAJE": "Error al obtener datos  del TORNEO en la funcion de postgres ERROR POSTGRES",
+        "MENSAJE": "Error al obtener datos  del tiket en la funcion de postgres ERROR POSTGRES",
+        "DATOS": error
+      };
+    }
+  }
+
+
+
+  //funcion que toma el codigo del barcode y lo devuelve en un json
+  @post('/ActualizarAsistenciaTiketBarcode')
+  @response(200, {
+    description: 'Tiket model instance',
+    content: {'application/json': {schema: getModelSchemaRef(Object)}},
+  })
+  async ActualizarAsistencia(
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: {
+            type: 'object',
+            properties: {
+              barcode: {
+                type: 'string',
+              },
+            },
+          },
+        },
+      },
+    })
+    requestBody: { barcode: string },
+  ): Promise<Object> {
+    try{
+    const barcode = requestBody.barcode;
+    //fragmenta el barcode en diferentes partes ya que el barcode tiene un formato especifico ejemplo 0'0'abcreed o 0-0-abcreed
+    //separando el barcode en partes se puede obtener el id_evento, id_usuario, hash
+    const barcodeArray = barcode.split(/[-']/);
+    //se obtiene el id_evento
+    const id_evento = barcodeArray[0];
+    //se obtiene el id_usuario
+    const id_usuario = barcodeArray[1];
+    //se obtiene el hash
+    const hash = barcodeArray[2];
+    //se retorna el barcode en un json
+
+    //Llama a la funcion que obtiene los datos del usuario
+    const sql = SQLConfig.actualizarAsistenciaTiket;
+    const params =[
+      id_evento,
+      id_usuario,
+      hash
+    ];
+    const result = await this.genericRepository.dataSource.execute(sql, params);
+      console.log(result);
+      console.log(result[0]);
+      //console.log(result[0].fun_obtener_torneo_por_id.resultado);
+      //console.log(result[0].fun_obtener_torneo_por_id.datos);
+      if(result[0].fun_update_asistencia_evento == undefined || result[0].fun_update_asistencia_evento == null){
+        return {
+          "CODIGO": 2,
+          "MENSAJE": "Error al obtener datos  del tiket en la funcion de postgres FALSE",
+          "DATOS": "NO se enotro el tiket "
+        };
+      }
+      return {
+        "CODIGO": 200,
+        "MENSAJE": "Ingreso correctamente",
+        "DATOS": result[0].fun_update_asistencia_evento
+      };
+    }catch(error){
+      return {
+        "CODIGO": 500,
+        "MENSAJE": "Error al obtener datos  del tiket en la funcion de postgres ERROR POSTGRES",
         "DATOS": error
       };
     }

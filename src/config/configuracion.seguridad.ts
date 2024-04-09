@@ -22,6 +22,11 @@ export namespace ConfiguracionSeguridad{
   // servidor mcs-seguridad-Torneo
   export const hostSeguridad="http://127.0.0.1:3000";
 
+  //mc-whatapp
+  export const urlWhatsappLEAD = 'http://127.0.0.1:3002/lead';
+  export const urlWhatsappMensajeArchivo = 'http://127.0.0.1:3002/mensaje-con-archivo';
+
+
 
 
   //-------------------------VARIABLES DE ENTORNO  -------------------------------------

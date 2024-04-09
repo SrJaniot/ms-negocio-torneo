@@ -7,3 +7,4 @@ export * from './jugador.controller';
 export * from './generador-codigo-barras-qr.controller';
 export * from './eventos.controller';
 export * from './tiket.controller';
+export * from './whatsapp.controller';

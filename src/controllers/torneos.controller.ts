@@ -392,7 +392,7 @@ export class TorneosController {
   @response(200, {
     description: 'vincular un usuario a un torneo',
     content:{
-      'aplication/json':{
+      'application/json':{
         schema: getModelSchemaRef(ModelRegistrarUsuarioTorneo),
       },
     },
@@ -400,7 +400,7 @@ export class TorneosController {
   async vincularUsuarioTorneo(
     @requestBody({
       content:{
-        'aplication/json':{
+        'application/json':{
           schema: getModelSchemaRef(ModelRegistrarUsuarioTorneo),
         },
       },
@@ -444,7 +444,7 @@ export class TorneosController {
   @response(200, {
     description: 'vincular un equipo a un torneo',
     content:{
-      'aplication/json':{
+      'application/json':{
         schema: getModelSchemaRef(ModelRegistrarEquipoTorneo),
       },
     },
@@ -452,7 +452,7 @@ export class TorneosController {
   async vincularEquipoTorneo(
     @requestBody({
       content:{
-        'aplication/json':{
+        'application/json':{
           schema: getModelSchemaRef(ModelRegistrarEquipoTorneo),
         },
       },
